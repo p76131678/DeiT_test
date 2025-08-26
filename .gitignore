@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+
+# Data and datasets
+data/
+*.zip
+*.tar
+*.tar.gz
+
+# Model checkpoints / weights
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Logs
+*.log
+logs/
+wandb/
+
+# Huggingface / timm cache
+.cache/
