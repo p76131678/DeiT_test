@@ -131,10 +131,11 @@ def test_epoch(backbone, heads):
 
 
 def main():
-    torch.set_num_threads(max(1, os.cpu_count() // 2))  # be nice on CPU
+    # automatically use GPU if available
+    DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.set_num_threads(max(1, os.cpu_count() // 2))  # CPU friendly
 
-    backbone = DeiTSBackbone(pretrained=True).to(DEVICE)
-    # prev_backbone as frozen copy for KD (optional in smoke test)
+    backbone = DeiTSBackbone(pretrained=False).to(DEVICE)  # set False to avoid download if offline
     prev_backbone = None  # or deepcopy(backbone).eval()
 
     heads = SSTHeads(feat_dim=backbone.feature_dim, num_classes=NUM_CLASSES).to(DEVICE)
@@ -142,6 +143,7 @@ def main():
 
     train_epoch(backbone, heads, proto_bank, prev_backbone=prev_backbone)
     test_epoch(backbone, heads)
+
 
 if __name__ == '__main__':
     main()
